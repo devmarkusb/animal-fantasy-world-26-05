@@ -23,11 +23,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" afterDir="false" />
-    </list>
+    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 9&#10;&#10;prompt:&#10;Create editor utilities to make sample ScriptableObject assets.&#10;&#10;Add menu items:&#10;- Tools &gt; Biomes &gt; Create Sample Savanna Biome&#10;- Tools &gt; Biomes &gt; Create Sample Animal Definition&#10;&#10;These should create placeholder ScriptableObjects under Assets/Game/Biomes.&#10;&#10;Do not assign third-party prefabs automatically, because names are unknown.&#10;Leave fields empty where manual assignment is required.&#10;Add comments or Debug.Log instructions telling the user which fields to populate manually." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -247,7 +243,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778750316454</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="feat: wip 8&#10;&#10;prompt:&#10;Improve the generated scene’s visual presentation.&#10;&#10;Update the generator to:&#10;- Add a warm directional light angled like afternoon sun&#10;- Add soft fog using BiomeDefinition values&#10;- Add a simple colored skybox material if none is configured&#10;- Add a few larger “hero” trees or rocks near the middle distance&#10;- Scatter objects in organic clusters rather than uniform random distribution&#10;- Leave a clear starting area around the camera target&#10;- Add a few curved paths or landmark clearings if feasible using simple flattened colored planes&#10;- Ensure scale variation for trees, rocks, and plants&#10;- Avoid obvious grid patterns&#10;&#10;The goal is a charming children’s low-poly biome, not a realistic simulation.">
+      <option name="closed" value="true" />
+      <created>1778756198563</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1778756198563</updated>
+    </task>
+    <task id="LOCAL-00019" summary="feat: wip 9&#10;&#10;prompt:&#10;Create editor utilities to make sample ScriptableObject assets.&#10;&#10;Add menu items:&#10;- Tools &gt; Biomes &gt; Create Sample Savanna Biome&#10;- Tools &gt; Biomes &gt; Create Sample Animal Definition&#10;&#10;These should create placeholder ScriptableObjects under Assets/Game/Biomes.&#10;&#10;Do not assign third-party prefabs automatically, because names are unknown.&#10;Leave fields empty where manual assignment is required.&#10;Add comments or Debug.Log instructions telling the user which fields to populate manually.">
+      <option name="closed" value="true" />
+      <created>1778756373684</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1778756373684</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -272,8 +284,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="chore: ai infra up" />
-    <MESSAGE value="Redesign MainMenu layout and add procedural gradient background&#10;&#10;Rewrites MainMenuUI layout entirely in code: title anchored top with&#10;large gold text, full-width touch-friendly buttons (560x100) centred&#10;on screen, proper version label bottom-right. Adds MenuBackground&#10;which generates a midnight-blue → forest-green → dark-earth gradient&#10;texture at runtime with no external art assets." />
     <MESSAGE value="Redesign MainMenu layout and add procedural gradient background&#10;&#10;Rewrites MainMenuUI layout entirely in code: title anchored top with&#10;large gold text, full-width touch-friendly buttons (560x100) centred&#10;on screen, proper version label bottom-right. Adds MenuBackground&#10;which generates a midnight-blue → forest-green → dark-earth gradient&#10;texture at runtime with no external art assets." />
     <MESSAGE value="Fix MenuBackground to use Image+Sprite instead of RawImage&#10;&#10;Background GameObject in the scene already has an Image component;&#10;switching from RawImage avoids requiring a component swap in the Editor." />
     <MESSAGE value="Fix MenuBackground to use Image+Sprite instead of RawImage&#10;&#10;Background GameObject in the scene already has an Image component;&#10;switching from RawImage avoids requiring a component swap in the Editor." />
@@ -297,7 +307,9 @@
     <MESSAGE value="feat: feat: wip 6&#10;&#10;prompt:&#10;Implement SimpleOrbitCamera.&#10;&#10;Behavior:&#10;- Third-person orbit camera around a target&#10;- If no target is assigned, create a simple invisible target at scene center&#10;- Right mouse drag or one-finger drag rotates camera&#10;- Mouse wheel zooms&#10;- Clamp pitch and zoom&#10;- Smooth follow&#10;- Avoid going below ground&#10;- Expose distance, minDistance, maxDistance, rotationSpeed, zoomSpeed, smoothing&#10;&#10;Also create an optional simple keyboard controller for the camera target:&#10;- WASD / arrow keys move target on XZ plane&#10;- movement speed configurable&#10;This lets a child explore the biome without a character controller." />
     <MESSAGE value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
     <MESSAGE value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
+    <MESSAGE value="feat: wip 8&#10;&#10;prompt:&#10;Improve the generated scene’s visual presentation.&#10;&#10;Update the generator to:&#10;- Add a warm directional light angled like afternoon sun&#10;- Add soft fog using BiomeDefinition values&#10;- Add a simple colored skybox material if none is configured&#10;- Add a few larger “hero” trees or rocks near the middle distance&#10;- Scatter objects in organic clusters rather than uniform random distribution&#10;- Leave a clear starting area around the camera target&#10;- Add a few curved paths or landmark clearings if feasible using simple flattened colored planes&#10;- Ensure scale variation for trees, rocks, and plants&#10;- Avoid obvious grid patterns&#10;&#10;The goal is a charming children’s low-poly biome, not a realistic simulation." />
+    <MESSAGE value="feat: wip 9&#10;&#10;prompt:&#10;Create editor utilities to make sample ScriptableObject assets.&#10;&#10;Add menu items:&#10;- Tools &gt; Biomes &gt; Create Sample Savanna Biome&#10;- Tools &gt; Biomes &gt; Create Sample Animal Definition&#10;&#10;These should create placeholder ScriptableObjects under Assets/Game/Biomes.&#10;&#10;Do not assign third-party prefabs automatically, because names are unknown.&#10;Leave fields empty where manual assignment is required.&#10;Add comments or Debug.Log instructions telling the user which fields to populate manually." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 9&#10;&#10;prompt:&#10;Create editor utilities to make sample ScriptableObject assets.&#10;&#10;Add menu items:&#10;- Tools &gt; Biomes &gt; Create Sample Savanna Biome&#10;- Tools &gt; Biomes &gt; Create Sample Animal Definition&#10;&#10;These should create placeholder ScriptableObjects under Assets/Game/Biomes.&#10;&#10;Do not assign third-party prefabs automatically, because names are unknown.&#10;Leave fields empty where manual assignment is required.&#10;Add comments or Debug.Log instructions telling the user which fields to populate manually." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
