@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c449b4bf710147a0a7f18e562579901, type: 3}
+  m_Name: Wolf
+  m_EditorClassIdentifier: Assembly-CSharp::AnimalDefinition
+  animalName: Wolf
+  animalPrefab: {fileID: 4305311230704357563, guid: bd30693d8f7304afcbd1793d06a64059, type: 3}
+  groupSizeMin: 3
+  groupSizeMax: 7
+  movementRadius: 12
+  moveSpeed: 3.5
+  idleTimeMin: 1.5
+  idleTimeMax: 4
+  factText: Wolves live in family groups called packs. They howl to talk to each
+    other \u2014 a wolf\u2019s howl can be heard up to 10 miles away! Wolf pups love
+    to play, just like puppies.
+  animalSound: {fileID: 0}

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a2246e8b4552490eb0555e1dbece034, type: 3}
+  m_Name: Forrest
+  m_EditorClassIdentifier: Assembly-CSharp::BiomeDefinition
+  biomeName: Forrest
+  groundMaterial: {fileID: 2100000, guid: bbc748915e0694b3e9023033cd35bacf, type: 2}
+  terrainSize: 80
+  treePrefabs:
+  - {fileID: 5147463823998150114, guid: 22f0f2d68d1344975be9ad15b869e9b5, type: 3}
+  treeCount: 45
+  rockPrefabs:
+  - {fileID: 4703329117097986915, guid: 047e3081a5f544a739642e9cdefb07cc, type: 3}
+  rockCount: 35
+  plantPrefabs:
+  - {fileID: 3020658064727858436, guid: 91778b62fc3504af1a6bf2053615e92f, type: 3}
+  plantCount: 90
+  heroTreeCount: 3
+  heroTreeScale: 2
+  heroRockCount: 2
+  heroRockScale: 2.5
+  animalDefinitions:
+  - {fileID: 11400000, guid: 32c267b8d02ba45809e30019aa9bdfa1, type: 2}
+  animalGroupCount: 5
+  skyColor: {r: 0.53, g: 0.81, b: 0.92, a: 1}
+  fogColor: {r: 0.75, g: 0.85, b: 0.9, a: 1}
+  fogDensity: 0.0151
+  skyboxMaterial: {fileID: 0}
+  directionalLightColor: {r: 1, g: 1, b: 1, a: 1}
+  directionalLightIntensity: 1.2
+  ambientColor: {r: 0.7, g: 0.85, b: 1, a: 1}
+  pathColor: {r: 0.76, g: 0.7, b: 0.5, a: 1}
+  pathCount: 2
+  clearingColor: {r: 0.65, g: 0.78, b: 0.42, a: 1}
+  clearingCount: 2
+  clusterCount: 5
+  scatterRandomness: 0.3
