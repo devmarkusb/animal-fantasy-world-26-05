@@ -19,19 +19,19 @@ public class BiomeDefinition : ScriptableObject
     public GameObject[] treePrefabs;
 
     [Min(0)]
-    public int treeCount = 15;
+    public int treeCount = 40;
 
     [Tooltip("Rock prefabs placed randomly across the biome.")]
     public GameObject[] rockPrefabs;
 
     [Min(0)]
-    public int rockCount = 10;
+    public int rockCount = 20;
 
     [Tooltip("Small plant / flower prefabs scattered across the biome.")]
     public GameObject[] plantPrefabs;
 
     [Min(0)]
-    public int plantCount = 25;
+    public int plantCount = 80;
 
     [Header("Hero Objects")]
     [Tooltip("Number of larger feature trees placed at middle distance as visual landmarks.")]
@@ -65,7 +65,7 @@ public class BiomeDefinition : ScriptableObject
 
     [Range(0f, 0.05f)]
     [Tooltip("Exponential fog density. 0 = no fog.")]
-    public float fogDensity = 0.005f;
+    public float fogDensity = 0.008f;
 
     [Tooltip("Optional skybox material. A simple procedural sky is generated when unassigned.")]
     public Material skyboxMaterial;
@@ -74,9 +74,9 @@ public class BiomeDefinition : ScriptableObject
     public Color directionalLightColor = Color.white;
 
     [Range(0f, 3f)]
-    public float directionalLightIntensity = 1.2f;
+    public float directionalLightIntensity = 1.4f;
 
-    public Color ambientColor = new Color(0.7f, 0.85f, 1f);
+    public Color ambientColor = new Color(0.75f, 0.82f, 0.95f);
 
     [Header("Paths & Clearings")]
     [Tooltip("Color tint for simple ground paths through the biome.")]
@@ -95,8 +95,8 @@ public class BiomeDefinition : ScriptableObject
 
     [Header("Scatter Style")]
     [Tooltip("Number of organic vegetation clusters. Objects group around these centres.")]
-    [Range(3, 15)]
-    public int clusterCount = 5;
+    [Range(3, 20)]
+    public int clusterCount = 8;
 
     [Tooltip("Blend between fully clustered (0) and fully random (1) object placement.")]
     [Range(0f, 1f)]
@@ -113,13 +113,19 @@ public class BiomeDefinition : ScriptableObject
         if (animalDefinitions == null || animalDefinitions.Length == 0)
             Debug.LogWarning($"[BiomeDefinition] '{name}' has no animal definitions. The scene will have no animals.", this);
 
-        if (treePrefabs != null && treePrefabs.Length > 0 && treeCount == 0)
+        if (treeCount > 0 && (treePrefabs == null || treePrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeDefinition] '{name}' wants {treeCount} trees but treePrefabs is empty — no trees will spawn.", this);
+        else if (treePrefabs != null && treePrefabs.Length > 0 && treeCount == 0)
             Debug.LogWarning($"[BiomeDefinition] '{name}' has tree prefabs but treeCount is 0.", this);
 
-        if (rockPrefabs != null && rockPrefabs.Length > 0 && rockCount == 0)
+        if (rockCount > 0 && (rockPrefabs == null || rockPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeDefinition] '{name}' wants {rockCount} rocks but rockPrefabs is empty — no rocks will spawn.", this);
+        else if (rockPrefabs != null && rockPrefabs.Length > 0 && rockCount == 0)
             Debug.LogWarning($"[BiomeDefinition] '{name}' has rock prefabs but rockCount is 0.", this);
 
-        if (plantPrefabs != null && plantPrefabs.Length > 0 && plantCount == 0)
+        if (plantCount > 0 && (plantPrefabs == null || plantPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeDefinition] '{name}' wants {plantCount} plants but plantPrefabs is empty — no plants will spawn.", this);
+        else if (plantPrefabs != null && plantPrefabs.Length > 0 && plantCount == 0)
             Debug.LogWarning($"[BiomeDefinition] '{name}' has plant prefabs but plantCount is 0.", this);
 
         if (heroTreeCount > 0 && (treePrefabs == null || treePrefabs.Length == 0))

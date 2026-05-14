@@ -16,7 +16,7 @@ public static class BiomeSceneGenerator
     const int RandomSeed = 42;
     const float SpawnExclusionRadius = 8f;
     const int MaxPlacementAttempts = 40;
-    const float VegetationMinSpacing = 1.5f;
+    const float VegetationMinSpacing = 1.1f;
     const float PathSegmentLength = 3.5f;
     const float PathWidthMin = 1.5f;
     const float PathWidthMax = 2.5f;
@@ -52,6 +52,7 @@ public static class BiomeSceneGenerator
         }
 
         biome.Validate();
+        WarnEmptyPrefabLists(biome);
 
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             return;
@@ -89,11 +90,11 @@ public static class BiomeSceneGenerator
         var clusterCenters = GenerateClusterCenters(biome, rng);
 
         ScatterClustered(biome.treePrefabs, biome.treeCount, treesParent.transform,
-            biome, rng, VegetationMinSpacing, 0.7f, 1.3f, clusterCenters, allPlaced, exclusions);
+            biome, rng, VegetationMinSpacing, 0.55f, 1.5f, clusterCenters, allPlaced, exclusions);
         ScatterClustered(biome.rockPrefabs, biome.rockCount, rocksParent.transform,
-            biome, rng, VegetationMinSpacing, 0.6f, 1.4f, clusterCenters, allPlaced, exclusions);
+            biome, rng, VegetationMinSpacing, 0.45f, 1.6f, clusterCenters, allPlaced, exclusions);
         ScatterClustered(biome.plantPrefabs, biome.plantCount, plantsParent.transform,
-            biome, rng, VegetationMinSpacing * 0.5f, 0.75f, 1.25f, clusterCenters, allPlaced, exclusions);
+            biome, rng, VegetationMinSpacing * 0.4f, 0.5f, 1.4f, clusterCenters, allPlaced, exclusions);
 
         PlaceHeroObjects(biome.treePrefabs, biome.heroTreeCount, biome.heroTreeScale,
             heroParent.transform, biome, rng, allPlaced, exclusions);
@@ -110,6 +111,34 @@ public static class BiomeSceneGenerator
 
     [MenuItem("Tools/Biomes/Generate Scene From Selected Biome", true)]
     static bool GenerateValidate() => Selection.activeObject is BiomeDefinition;
+
+    // ==================================================================
+    // Validation helpers
+    // ==================================================================
+
+    static void WarnEmptyPrefabLists(BiomeDefinition biome)
+    {
+        if (biome.treeCount > 0 && (biome.treePrefabs == null || biome.treePrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeSceneGenerator] '{biome.biomeName}' requests {biome.treeCount} trees but no tree prefabs are assigned.");
+        if (biome.rockCount > 0 && (biome.rockPrefabs == null || biome.rockPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeSceneGenerator] '{biome.biomeName}' requests {biome.rockCount} rocks but no rock prefabs are assigned.");
+        if (biome.plantCount > 0 && (biome.plantPrefabs == null || biome.plantPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeSceneGenerator] '{biome.biomeName}' requests {biome.plantCount} plants but no plant prefabs are assigned.");
+        if (biome.heroTreeCount > 0 && (biome.treePrefabs == null || biome.treePrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeSceneGenerator] '{biome.biomeName}' requests {biome.heroTreeCount} hero trees but no tree prefabs are assigned.");
+        if (biome.heroRockCount > 0 && (biome.rockPrefabs == null || biome.rockPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeSceneGenerator] '{biome.biomeName}' requests {biome.heroRockCount} hero rocks but no rock prefabs are assigned.");
+
+        if (biome.animalDefinitions != null)
+        {
+            for (int i = 0; i < biome.animalDefinitions.Length; i++)
+            {
+                var ad = biome.animalDefinitions[i];
+                if (ad != null && ad.animalPrefab == null)
+                    Debug.LogWarning($"[BiomeSceneGenerator] Animal definition '{ad.animalName}' (index {i}) has no prefab — its groups will be skipped.");
+            }
+        }
+    }
 
     // ==================================================================
     // Hierarchy helpers
@@ -155,8 +184,17 @@ public static class BiomeSceneGenerator
         sun.shadows = LightShadows.Soft;
         sun.color = biome.directionalLightColor;
         sun.intensity = biome.directionalLightIntensity;
-        sunGO.transform.rotation = Quaternion.Euler(40f, -50f, 0f);
+        sunGO.transform.rotation = Quaternion.Euler(42f, -50f, 0f);
         Undo.RegisterCreatedObjectUndo(sunGO, "Create Directional Light");
+
+        var fillGO = new GameObject("Fill Light");
+        var fill = fillGO.AddComponent<Light>();
+        fill.type = LightType.Directional;
+        fill.shadows = LightShadows.None;
+        fill.color = biome.ambientColor;
+        fill.intensity = biome.directionalLightIntensity * 0.25f;
+        fillGO.transform.rotation = Quaternion.Euler(25f, 130f, 0f);
+        Undo.RegisterCreatedObjectUndo(fillGO, "Create Fill Light");
     }
 
     // ==================================================================
@@ -195,8 +233,11 @@ public static class BiomeSceneGenerator
 
     static void SetupFogAndAmbient(BiomeDefinition biome)
     {
-        RenderSettings.ambientLight = biome.ambientColor;
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Trilight;
         RenderSettings.ambientSkyColor = biome.ambientColor;
+        RenderSettings.ambientEquatorColor = Color.Lerp(biome.ambientColor, biome.fogColor, 0.5f);
+        RenderSettings.ambientGroundColor = biome.fogColor * 0.6f;
+        RenderSettings.ambientLight = biome.ambientColor;
 
         bool useFog = biome.fogDensity > 0f;
         RenderSettings.fog = useFog;
@@ -223,17 +264,23 @@ public static class BiomeSceneGenerator
         var camGO = new GameObject("Main Camera");
         camGO.tag = "MainCamera";
         var cam = camGO.AddComponent<Camera>();
+        cam.nearClipPlane = 0.3f;
+        cam.farClipPlane = biome.terrainSize * 1.5f;
 
         bool hasSkybox = RenderSettings.skybox != null;
         cam.clearFlags = hasSkybox ? CameraClearFlags.Skybox : CameraClearFlags.SolidColor;
         cam.backgroundColor = biome.skyColor;
         camGO.AddComponent<AudioListener>();
 
-        camGO.transform.position = new Vector3(0f, 12f, -20f);
-        camGO.transform.LookAt(Vector3.zero);
+        float camHeight = biome.terrainSize * 0.16f;
+        float camBack = biome.terrainSize * 0.22f;
+        camGO.transform.position = new Vector3(0f, camHeight, -camBack);
+        camGO.transform.LookAt(new Vector3(0f, 0f, biome.terrainSize * 0.04f));
 
         var orbit = camGO.AddComponent<SimpleOrbitCamera>();
         orbit.target = pivotGO.transform;
+        orbit.distance = Mathf.Sqrt(camHeight * camHeight + camBack * camBack);
+        orbit.minDistance = biome.terrainSize * 0.08f;
         orbit.maxDistance = biome.terrainSize * 0.5f;
         Undo.RegisterCreatedObjectUndo(camGO, "Create Main Camera");
     }
@@ -342,19 +389,31 @@ public static class BiomeSceneGenerator
     {
         int count = biome.clusterCount;
         float halfSize = biome.terrainSize * 0.42f;
+
+        int innerCount = Mathf.Max(2, count / 3);
+        int outerCount = count - innerCount;
         var centers = new Vector3[count];
 
-        for (int i = 0; i < count; i++)
+        float innerMinR = SpawnExclusionRadius * 1.3f;
+        float innerMaxR = halfSize * 0.4f;
+        for (int i = 0; i < innerCount; i++)
         {
-            float sector = ((float)i / count) * Mathf.PI * 2f;
-            float jitter = (float)(rng.NextDouble() - 0.5) * (Mathf.PI * 2f / count * 0.6f);
+            float sector = ((float)i / innerCount) * Mathf.PI * 2f;
+            float jitter = (float)(rng.NextDouble() - 0.5) * (Mathf.PI * 2f / innerCount * 0.5f);
+            float r = innerMinR + (float)rng.NextDouble() * (innerMaxR - innerMinR);
             float angle = sector + jitter;
-
-            float minR = SpawnExclusionRadius * 1.5f;
-            float maxR = halfSize * 0.9f;
-            float r = minR + (float)rng.NextDouble() * (maxR - minR);
-
             centers[i] = new Vector3(r * Mathf.Cos(angle), 0f, r * Mathf.Sin(angle));
+        }
+
+        float outerMinR = halfSize * 0.35f;
+        float outerMaxR = halfSize * 0.9f;
+        for (int i = 0; i < outerCount; i++)
+        {
+            float sector = ((float)i / outerCount) * Mathf.PI * 2f;
+            float jitter = (float)(rng.NextDouble() - 0.5) * (Mathf.PI * 2f / outerCount * 0.6f);
+            float r = outerMinR + (float)rng.NextDouble() * (outerMaxR - outerMinR);
+            float angle = sector + jitter;
+            centers[innerCount + i] = new Vector3(r * Mathf.Cos(angle), 0f, r * Mathf.Sin(angle));
         }
 
         return centers;
@@ -399,8 +458,9 @@ public static class BiomeSceneGenerator
             instance.transform.position = pos;
             instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f);
 
-            float scale = scaleMin + (float)rng.NextDouble() * (scaleMax - scaleMin);
-            instance.transform.localScale = Vector3.one * scale;
+            float baseScale = scaleMin + (float)rng.NextDouble() * (scaleMax - scaleMin);
+            float yStretch = 1f + (float)(rng.NextDouble() - 0.5) * 0.2f;
+            instance.transform.localScale = new Vector3(baseScale, baseScale * yStretch, baseScale);
 
             Undo.RegisterCreatedObjectUndo(instance, $"Scatter {prefab.name}");
         }
@@ -520,7 +580,12 @@ public static class BiomeSceneGenerator
             return;
         }
 
-        float spawnRadius = biome.terrainSize * 0.35f;
+        float nearMin = SpawnExclusionRadius * 1.5f;
+        float nearMax = biome.terrainSize * 0.18f;
+        float farMin = biome.terrainSize * 0.15f;
+        float farMax = biome.terrainSize * 0.38f;
+        int nearGroupCount = Mathf.Max(1, Mathf.CeilToInt(biome.animalGroupCount * 0.5f));
+        float angleStep = Mathf.PI * 2f / biome.animalGroupCount;
 
         for (int g = 0; g < biome.animalGroupCount; g++)
         {
@@ -540,7 +605,14 @@ public static class BiomeSceneGenerator
                 continue;
             }
 
-            Vector3 groupCenter = RandomPointOnDisc(rng, SpawnExclusionRadius, spawnRadius);
+            bool isNearGroup = g < nearGroupCount;
+            float rMin = isNearGroup ? nearMin : farMin;
+            float rMax = isNearGroup ? nearMax : farMax;
+
+            float baseAngle = angleStep * g + (float)(rng.NextDouble() - 0.5) * angleStep * 0.4f;
+            float dist = rMin + Mathf.Sqrt((float)rng.NextDouble()) * (rMax - rMin);
+            Vector3 groupCenter = new Vector3(
+                Mathf.Cos(baseAngle) * dist, 0f, Mathf.Sin(baseAngle) * dist);
 
             int maxSize = Mathf.Max(animal.groupSizeMin, animal.groupSizeMax);
             int groupSize = rng.Next(animal.groupSizeMin, maxSize + 1);
