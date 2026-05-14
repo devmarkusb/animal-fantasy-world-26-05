@@ -1,0 +1,12 @@
+---
+description: Prevent agents from editing Unity-serialized binary and YAML asset files
+globs: "*.meta,*.unity,*.prefab,*.asset,*.mat,*.controller,*.anim,*.flare,*.fontsettings,*.guiskin,*.mask,*.mixer,*.preset,*.signal,*.spriteatlas,*.lighting,*.brush,Packages/packages-lock.json"
+alwaysApply: false
+---
+
+These files are Unity-serialized YAML or binary. Do not edit them directly.
+
+If a change is needed:
+1. Describe the desired modification in plain language.
+2. The user will apply it through the Unity Editor.
+3. Unity will regenerate the file and any related `.meta` files automatically.

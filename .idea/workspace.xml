@@ -23,7 +23,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="chore: add nature and animal presets, first 3 example prefabs" />
+    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages.">
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalDefinition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalWander.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalWander.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -104,7 +110,7 @@
       <workItem from="1778704643950" duration="5106000" />
       <workItem from="1778739991065" duration="1719000" />
       <workItem from="1778741988172" duration="283000" />
-      <workItem from="1778742298800" duration="1862000" />
+      <workItem from="1778742298800" duration="2169000" />
     </task>
     <task id="LOCAL-00001" summary="Update default Android package name in Fastlane Appfile">
       <option name="closed" value="true" />
@@ -146,7 +152,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778742559599</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages.">
+      <option name="closed" value="true" />
+      <created>1778748781985</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1778748781985</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages.">
+      <option name="closed" value="true" />
+      <created>1778748791135</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1778748791135</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +186,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add BiomeData assets for all 8 biomes and auto-load in WorldManager&#10;&#10;Generates forest, ocean, mountain, sky, savanna, arctic, jungle, and&#10;desert BiomeData ScriptableObjects with fog colours and basic settings.&#10;WorldManager now falls back to Resources.LoadAll&lt;BiomeData&gt; when the&#10;Inspector list is empty, matching the AnimalDatabase pattern." />
     <MESSAGE value="Set NPCSpawner ground mask to Default layer&#10;&#10;Allows NPCSpawner to raycast against terrain when finding NPC spawn&#10;positions. Also tracks the Biomes resource folder meta file." />
     <MESSAGE value="Set NPCSpawner ground mask to Default layer&#10;&#10;Allows NPCSpawner to raycast against terrain when finding NPC spawn&#10;positions. Also tracks the Biomes resource folder meta file." />
     <MESSAGE value="Fix NPC spawning and biome transition detection&#10;&#10;NPCSpawner.SpawnForBiome was never called — now triggered on initial&#10;scene load and wired to WorldManager.OnBiomeChanged so NPCs re-spawn&#10;when the player enters a new biome. WorldManager now tracks the player&#10;transform and detects biome transitions in Update() via biomeBounds,&#10;replacing the single one-shot EnterBiome call on load." />
@@ -189,7 +210,8 @@
     <MESSAGE value="Fix UI layout: fill parent RectTransform and add gradient background for URP&#10;&#10;- MainMenuUI: force RectTransform to stretch-fill Canvas so button anchor&#10;  positions calculate against the full screen; move buttons to y=-160/-300&#10;  (center-relative) and subtext to match&#10;- AnimalSelectionUI: same stretch-fill fix; replace Camera.backgroundColor&#10;  (ignored by URP) with a programmatic gradient Image panel injected as&#10;  first sibling so the background is always visible" />
     <MESSAGE value="Fix UI layout: fill parent RectTransform and add gradient background for URP&#10;&#10;- MainMenuUI: force RectTransform to stretch-fill Canvas so button anchor&#10;  positions calculate against the full screen; move buttons to y=-160/-300&#10;  (center-relative) and subtext to match&#10;- AnimalSelectionUI: same stretch-fill fix; replace Camera.backgroundColor&#10;  (ignored by URP) with a programmatic gradient Image panel injected as&#10;  first sibling so the background is always visible" />
     <MESSAGE value="chore: add nature and animal presets, first 3 example prefabs" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: add nature and animal presets, first 3 example prefabs" />
+    <MESSAGE value="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

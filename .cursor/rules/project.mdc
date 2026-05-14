@@ -1,0 +1,15 @@
+---
+description: Core project rules for Animal Fantasy World (Unity 6000.4 / C# 9 / URP)
+globs:
+alwaysApply: true
+---
+
+Follow the instructions in `AGENTS.md` at the repository root.
+
+Key constraints:
+- Unity 6000.4, C# 9.0, .NET Standard 2.1, URP 17.4.0.
+- Runtime scripts go in `Assets/Game/Scripts/`, editor scripts in `Assets/Game/Editor/`.
+- One class per file, filename matches class name.
+- Prefix private fields with `_`. Use `[Header]`, `[Tooltip]`, `[Min]`, `[Range]` on inspector-exposed fields.
+- Never edit `.meta`, `.unity`, `.prefab`, or `ProjectSettings/` files directly.
+- This is a children's game — keep all content child-safe.
