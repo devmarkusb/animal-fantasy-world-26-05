@@ -149,6 +149,12 @@ public static class BiomeSceneGenerator
 
     static void CreateCamera(BiomeDefinition biome)
     {
+        var pivotGO = new GameObject("CameraPivot");
+        pivotGO.transform.position = Vector3.zero;
+        var mover = pivotGO.AddComponent<CameraTargetMover>();
+        mover.boundaryRadius = biome.terrainSize * 0.4f;
+        Undo.RegisterCreatedObjectUndo(pivotGO, "Create Camera Pivot");
+
         var camGO = new GameObject("Main Camera");
         camGO.tag = "MainCamera";
         var cam = camGO.AddComponent<Camera>();
@@ -160,6 +166,7 @@ public static class BiomeSceneGenerator
         camGO.transform.LookAt(Vector3.zero);
 
         var orbit = camGO.AddComponent<SimpleOrbitCamera>();
+        orbit.target = pivotGO.transform;
         orbit.maxDistance = biome.terrainSize * 0.5f;
         Undo.RegisterCreatedObjectUndo(camGO, "Create Main Camera");
     }
