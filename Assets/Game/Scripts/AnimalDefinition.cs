@@ -1,50 +1,51 @@
 using UnityEngine;
 
-/// <summary>
-/// Data asset for one animal species: visuals, behaviour tuning, and fun-fact text
-/// shown when a child taps the animal.
-/// </summary>
 [CreateAssetMenu(fileName = "New Animal", menuName = "Game/Animal Definition")]
 public class AnimalDefinition : ScriptableObject
 {
     [Header("Identity")]
-    public string displayName = "Unnamed Animal";
-
-    [Tooltip("Icon shown in UI popups.")]
-    public Sprite icon;
-
-    [TextArea(2, 5)]
-    public string funFact = "This animal is really cool!";
+    public string animalName = "Unnamed Animal";
 
     [Header("Prefab")]
-    [Tooltip("The 3D model prefab instantiated in the scene. Must have a Collider for click detection.")]
-    public GameObject prefab;
+    [Tooltip("The 3D model prefab instantiated in the scene. Should have a Collider for click detection.")]
+    public GameObject animalPrefab;
 
-    [Header("Spawning")]
+    [Header("Group Spawning")]
+    [Tooltip("Minimum number of animals in a spawned group.")]
     [Min(1)]
-    public int spawnCount = 3;
+    public int groupSizeMin = 2;
 
-    [Tooltip("How far from the biome centre this animal may spawn.")]
+    [Tooltip("Maximum number of animals in a spawned group.")]
+    [Min(1)]
+    public int groupSizeMax = 5;
+
+    [Header("Movement")]
+    [Tooltip("Radius around the spawn point within which the animal wanders.")]
     [Min(1f)]
-    public float spawnRadius = 30f;
+    public float movementRadius = 8f;
 
-    [Header("Wandering")]
+    [Tooltip("Walking speed in units per second.")]
     [Min(0.1f)]
     public float moveSpeed = 2f;
 
-    [Min(1f)]
-    public float wanderRadius = 8f;
+    [Header("Fun Fact")]
+    [TextArea(2, 5)]
+    [Tooltip("Educational text shown when a child taps the animal.")]
+    public string factText = "This animal is really cool!";
 
-    [Tooltip("Seconds between picking a new wander target.")]
-    [Min(0.5f)]
-    public float wanderInterval = 4f;
+    [Header("Audio")]
+    [Tooltip("Optional sound played when the animal is clicked.")]
+    public AudioClip animalSound;
 
     public void Validate()
     {
-        if (prefab == null)
+        if (animalPrefab == null)
             Debug.LogWarning($"[AnimalDefinition] '{name}' has no prefab assigned.", this);
 
-        if (string.IsNullOrWhiteSpace(displayName))
-            Debug.LogWarning($"[AnimalDefinition] '{name}' has no display name.", this);
+        if (string.IsNullOrWhiteSpace(animalName))
+            Debug.LogWarning($"[AnimalDefinition] '{name}' has no animal name set.", this);
+
+        if (groupSizeMax < groupSizeMin)
+            Debug.LogWarning($"[AnimalDefinition] '{name}' has groupSizeMax ({groupSizeMax}) < groupSizeMin ({groupSizeMin}). Will clamp.", this);
     }
 }

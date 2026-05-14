@@ -4,8 +4,8 @@ using UnityEditor.SceneManagement;
 
 /// <summary>
 /// Editor tool: Tools > Generate Biome Scene.
-/// Asks the designer to pick a <see cref="BiomeDefinition"/> asset, then builds a
-/// ready-to-play test scene with ground, lighting, camera, animals, and decorations.
+/// Picks a <see cref="BiomeDefinition"/> asset, then builds a ready-to-play test scene
+/// with ground, lighting, fog, camera, animals, trees, rocks, and plants.
 /// </summary>
 public static class BiomeSceneGenerator
 {
@@ -35,9 +35,12 @@ public static class BiomeSceneGenerator
         Undo.SetCurrentGroupName("Generate Biome Scene");
 
         SetupLighting(biome);
+        SetupFog(biome);
         CreateGround(biome);
+        SpawnPrefabs(biome.treePrefabs, biome.treeCount, "Trees", biome.terrainSize);
+        SpawnPrefabs(biome.rockPrefabs, biome.rockCount, "Rocks", biome.terrainSize);
+        SpawnPrefabs(biome.plantPrefabs, biome.plantCount, "Plants", biome.terrainSize);
         SpawnAnimals(biome);
-        SpawnDecorations(biome);
         CreateCamera(biome);
 
         EditorSceneManager.MarkSceneDirty(scene);
@@ -48,13 +51,24 @@ public static class BiomeSceneGenerator
     {
         RenderSettings.ambientLight = biome.ambientColor;
 
-        if (biome.skyboxMaterial != null)
-            RenderSettings.skybox = biome.skyboxMaterial;
-
         var sun = FindOrCreateDirectionalLight();
-        sun.color = biome.sunColor;
-        sun.intensity = biome.sunIntensity;
+        sun.color = biome.directionalLightColor;
+        sun.intensity = biome.directionalLightIntensity;
         sun.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+
+        Camera.main.backgroundColor = biome.skyColor;
+    }
+
+    static void SetupFog(BiomeDefinition biome)
+    {
+        bool useFog = biome.fogDensity > 0f;
+        RenderSettings.fog = useFog;
+
+        if (!useFog) return;
+
+        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        RenderSettings.fogColor = biome.fogColor;
+        RenderSettings.fogDensity = biome.fogDensity;
     }
 
     static Light FindOrCreateDirectionalLight()
@@ -77,41 +91,79 @@ public static class BiomeSceneGenerator
         var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
         ground.name = "Ground";
         ground.transform.position = Vector3.zero;
-        ground.transform.localScale = Vector3.one * (biome.groundSize / 10f);
+        ground.transform.localScale = Vector3.one * (biome.terrainSize / 10f);
 
         if (biome.groundMaterial != null)
             ground.GetComponent<Renderer>().sharedMaterial = biome.groundMaterial;
     }
 
+    static void SpawnPrefabs(GameObject[] prefabs, int count, string parentName, float terrainSize)
+    {
+        if (prefabs == null || prefabs.Length == 0 || count <= 0)
+            return;
+
+        var parent = new GameObject(parentName);
+        float halfSize = terrainSize * 0.45f;
+
+        for (int i = 0; i < count; i++)
+        {
+            var prefab = prefabs[Random.Range(0, prefabs.Length)];
+            if (prefab == null)
+            {
+                Debug.LogWarning($"[BiomeSceneGenerator] Null entry in {parentName} prefabs — skipped.");
+                continue;
+            }
+
+            Vector3 pos = new Vector3(
+                Random.Range(-halfSize, halfSize),
+                0f,
+                Random.Range(-halfSize, halfSize));
+
+            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            instance.transform.SetParent(parent.transform);
+            instance.transform.position = pos;
+            instance.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+        }
+    }
+
     static void SpawnAnimals(BiomeDefinition biome)
     {
-        if (biome.animals == null) return;
+        if (biome.animalDefinitions == null || biome.animalDefinitions.Length == 0)
+            return;
 
         var parent = new GameObject("Animals");
+        float spawnRadius = biome.terrainSize * 0.35f;
 
-        foreach (var animal in biome.animals)
+        for (int g = 0; g < biome.animalGroupCount; g++)
         {
+            var animal = biome.animalDefinitions[g % biome.animalDefinitions.Length];
+
             if (animal == null)
             {
-                Debug.LogWarning("[BiomeSceneGenerator] Null entry in animals array — skipped.");
+                Debug.LogWarning("[BiomeSceneGenerator] Null entry in animalDefinitions — skipped.");
                 continue;
             }
 
             animal.Validate();
 
-            if (animal.prefab == null)
+            if (animal.animalPrefab == null)
             {
-                Debug.LogWarning($"[BiomeSceneGenerator] Animal '{animal.displayName}' has no prefab — skipped.");
+                Debug.LogWarning($"[BiomeSceneGenerator] Animal '{animal.animalName}' has no prefab — skipped.");
                 continue;
             }
 
-            for (int i = 0; i < animal.spawnCount; i++)
-            {
-                Vector2 offset = Random.insideUnitCircle * animal.spawnRadius;
-                Vector3 pos = new Vector3(offset.x, 0f, offset.y);
+            Vector2 groupCenter2D = Random.insideUnitCircle * spawnRadius;
+            Vector3 groupCenter = new Vector3(groupCenter2D.x, 0f, groupCenter2D.y);
 
-                var instance = (GameObject)PrefabUtility.InstantiatePrefab(animal.prefab);
-                instance.name = $"{animal.displayName} ({i + 1})";
+            int groupSize = Random.Range(animal.groupSizeMin, Mathf.Max(animal.groupSizeMin, animal.groupSizeMax) + 1);
+
+            for (int i = 0; i < groupSize; i++)
+            {
+                Vector2 offset = Random.insideUnitCircle * animal.movementRadius * 0.5f;
+                Vector3 pos = groupCenter + new Vector3(offset.x, 0f, offset.y);
+
+                var instance = (GameObject)PrefabUtility.InstantiatePrefab(animal.animalPrefab);
+                instance.name = $"{animal.animalName} ({g + 1}-{i + 1})";
                 instance.transform.SetParent(parent.transform);
                 instance.transform.position = pos;
                 instance.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
@@ -120,8 +172,7 @@ public static class BiomeSceneGenerator
                 if (wander == null)
                     wander = instance.AddComponent<AnimalWander>();
                 wander.moveSpeed = animal.moveSpeed;
-                wander.wanderRadius = animal.wanderRadius;
-                wander.wanderInterval = animal.wanderInterval;
+                wander.movementRadius = animal.movementRadius;
 
                 EnsureCollider(instance);
 
@@ -154,35 +205,6 @@ public static class BiomeSceneGenerator
         col.size = bounds.size;
     }
 
-    static void SpawnDecorations(BiomeDefinition biome)
-    {
-        if (biome.decorationPrefabs == null || biome.decorationPrefabs.Length == 0)
-            return;
-
-        var parent = new GameObject("Decorations");
-        float halfSize = biome.groundSize * 0.45f;
-
-        for (int i = 0; i < biome.decorationCount; i++)
-        {
-            var prefab = biome.decorationPrefabs[Random.Range(0, biome.decorationPrefabs.Length)];
-            if (prefab == null)
-            {
-                Debug.LogWarning("[BiomeSceneGenerator] Null entry in decoration prefabs — skipped.");
-                continue;
-            }
-
-            Vector3 pos = new Vector3(
-                Random.Range(-halfSize, halfSize),
-                0f,
-                Random.Range(-halfSize, halfSize));
-
-            var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
-            instance.transform.SetParent(parent.transform);
-            instance.transform.position = pos;
-            instance.transform.rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
-        }
-    }
-
     static void CreateCamera(BiomeDefinition biome)
     {
         var cam = Object.FindAnyObjectByType<Camera>();
@@ -195,11 +217,13 @@ public static class BiomeSceneGenerator
 
         cam.transform.position = new Vector3(0f, 12f, -20f);
         cam.transform.LookAt(Vector3.zero);
+        cam.clearFlags = CameraClearFlags.SolidColor;
+        cam.backgroundColor = biome.skyColor;
 
         var orbit = cam.GetComponent<SimpleOrbitCamera>();
         if (orbit == null)
             orbit = cam.gameObject.AddComponent<SimpleOrbitCamera>();
 
-        orbit.maxDistance = biome.groundSize * 0.5f;
+        orbit.maxDistance = biome.terrainSize * 0.5f;
     }
 }
