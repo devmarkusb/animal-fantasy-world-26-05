@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
-/// Detects mouse/touch clicks on an animal, shows its fun-fact and plays its sound.
+/// Detects mouse/touch clicks on an animal, shows a <see cref="FactCardUI"/>
+/// with its name and fun fact, and plays its sound.
 /// Requires a Collider on this GameObject or its children.
 /// </summary>
 [RequireComponent(typeof(Collider))]
@@ -24,13 +26,16 @@ public class ClickableAnimal : MonoBehaviour
 
     void OnMouseDown()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (definition == null)
         {
-            Debug.LogWarning("[ClickableAnimal] No AnimalDefinition assigned. Cannot show info.", this);
+            Debug.LogWarning("[ClickableAnimal] No AnimalDefinition assigned.", this);
             return;
         }
 
-        Debug.Log($"<b>{definition.animalName}</b>: {definition.factText}");
+        FactCardUI.Instance.Show(definition.animalName, definition.factText);
 
         if (_audioSource != null && definition.animalSound != null)
             _audioSource.PlayOneShot(definition.animalSound);

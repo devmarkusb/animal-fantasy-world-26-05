@@ -23,8 +23,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="chore: ai repo setup">
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" afterDir="false" />
+    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 4&#10;&#10;prompt:&#10;Implement AnimalWander.&#10;&#10;Behavior:&#10;- Animal wanders inside a radius around its starting position&#10;- It picks a random destination&#10;- It smoothly rotates toward movement direction&#10;- It moves at configurable speed&#10;- It waits briefly after reaching a destination&#10;- It should work without NavMesh&#10;- It should keep y position stable&#10;- It should expose movementRadius, moveSpeed, idleTimeMin, idleTimeMax&#10;- Draw a gizmo circle showing movement radius when selected&#10;&#10;Keep it child-friendly and calm: no chasing, no fleeing, no combat.">
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +39,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="SOFT" />
   </component>
   <component name="McpProjectServerCommands">
     <commands />
@@ -59,31 +60,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.MCP Project settings loaded": "true",
-    "RunOnceActivity.RadMigrateCodeStyle": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
-    "junie.onboarding.icon.badge.shown": "true",
-    "last_opened_file_path": "/Users/markus.borris/dev/private/animal-fantasy-world/Assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.RadMigrateCodeStyle&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/markus.borris/dev/private/animal-fantasy-world/Assets&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Assets" />
@@ -180,7 +181,31 @@
       <option name="project" value="LOCAL" />
       <updated>1778749108905</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat: wip 2&#10;&#10;prompt:&#10;Implement BiomeSceneGenerator as a Unity Editor tool.&#10;&#10;Requirements:&#10;- Add menu item Tools &gt; Biomes &gt; Generate Scene From Selected Biome&#10;- It should require that a BiomeDefinition asset is selected in the Project window&#10;- Create a new empty scene&#10;- Create a large ground plane scaled to biome.terrainSize&#10;- Assign biome.groundMaterial&#10;- Scatter trees, rocks, and plants randomly on the ground&#10;- Use deterministic random seed exposed in the generator code&#10;- Avoid placing objects too close to the center spawn point&#10;- Spawn animal groups from AnimalDefinition entries&#10;- Add a main camera&#10;- Add a directional light&#10;- Configure RenderSettings fog, ambient light, and sky color&#10;- Create an empty GameObject called World&#10;- Parent generated objects under World/Trees, World/Rocks, World/Plants, World/Animals&#10;- Save the scene to Assets/Game/Scenes/Generated_&lt;biomeName&gt;.unity&#10;&#10;The generated scene should look full and appealing, not empty.&#10;Use Undo.RegisterCreatedObjectUndo where appropriate.&#10;Add clear error messages.">
+      <option name="closed" value="true" />
+      <created>1778749319659</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1778749319659</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: wip 3&#10;&#10;prompt:&#10;Implement BiomeSceneGenerator as a Unity Editor tool.&#10;&#10;Requirements:&#10;- Add menu item Tools &gt; Biomes &gt; Generate Scene From Selected Biome&#10;- It should require that a BiomeDefinition asset is selected in the Project window&#10;- Create a new empty scene&#10;- Create a large ground plane scaled to biome.terrainSize&#10;- Assign biome.groundMaterial&#10;- Scatter trees, rocks, and plants randomly on the ground&#10;- Use deterministic random seed exposed in the generator code&#10;- Avoid placing objects too close to the center spawn point&#10;- Spawn animal groups from AnimalDefinition entries&#10;- Add a main camera&#10;- Add a directional light&#10;- Configure RenderSettings fog, ambient light, and sky color&#10;- Create an empty GameObject called World&#10;- Parent generated objects under World/Trees, World/Rocks, World/Plants, World/Animals&#10;- Save the scene to Assets/Game/Scenes/Generated_&lt;biomeName&gt;.unity&#10;&#10;The generated scene should look full and appealing, not empty.&#10;Use Undo.RegisterCreatedObjectUndo where appropriate.&#10;Add clear error messages.">
+      <option name="closed" value="true" />
+      <created>1778749391556</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1778749391556</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: wip 4&#10;&#10;prompt:&#10;Implement AnimalWander.&#10;&#10;Behavior:&#10;- Animal wanders inside a radius around its starting position&#10;- It picks a random destination&#10;- It smoothly rotates toward movement direction&#10;- It moves at configurable speed&#10;- It waits briefly after reaching a destination&#10;- It should work without NavMesh&#10;- It should keep y position stable&#10;- It should expose movementRadius, moveSpeed, idleTimeMin, idleTimeMax&#10;- Draw a gizmo circle showing movement radius when selected&#10;&#10;Keep it child-friendly and calm: no chasing, no fleeing, no combat.">
+      <option name="closed" value="true" />
+      <created>1778749512081</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1778749512081</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,16 +216,20 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ID_WIDTH">
+                <map>
+                  <entry key="Table.Default.Author.ColumnIdWidth" value="69" />
+                  <entry key="Table.GitHub.CommitStatus.ColumnIdWidth" value="55" />
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Fix NPC spawning and biome transition detection&#10;&#10;NPCSpawner.SpawnForBiome was never called — now triggered on initial&#10;scene load and wired to WorldManager.OnBiomeChanged so NPCs re-spawn&#10;when the player enters a new biome. WorldManager now tracks the player&#10;transform and detects biome transitions in Update() via biomeBounds,&#10;replacing the single one-shot EnterBiome call on load." />
-    <MESSAGE value="Fix NPC spawning and biome transition detection&#10;&#10;NPCSpawner.SpawnForBiome was never called — now triggered on initial&#10;scene load and wired to WorldManager.OnBiomeChanged so NPCs re-spawn&#10;when the player enters a new biome. WorldManager now tracks the player&#10;transform and detects biome transitions in Update() via biomeBounds,&#10;replacing the single one-shot EnterBiome call on load." />
-    <MESSAGE value="Remove duplicate Main Camera and add AudioListener in GameWorld&#10;&#10;SceneSetupWizard had generated two Main Camera GameObjects. Removed&#10;the one without CameraController and added AudioListener to the&#10;remaining camera to fix the missing audio listener warning." />
     <MESSAGE value="Remove duplicate Main Camera and add AudioListener in GameWorld&#10;&#10;SceneSetupWizard had generated two Main Camera GameObjects. Removed&#10;the one without CameraController and added AudioListener to the&#10;remaining camera to fix the missing audio listener warning." />
     <MESSAGE value="Replace StandaloneInputModule with InputSystemUIInputModule in all scenes&#10;&#10;The project uses Unity's new Input System package but EventSystems were&#10;using the old StandaloneInputModule, causing all UI buttons to be&#10;unresponsive. Replaced in MainMenu, AnimalSelection, and GameWorld." />
     <MESSAGE value="Replace StandaloneInputModule with InputSystemUIInputModule in all scenes&#10;&#10;The project uses Unity's new Input System package but EventSystems were&#10;using the old StandaloneInputModule, causing all UI buttons to be&#10;unresponsive. Replaced in MainMenu, AnimalSelection, and GameWorld." />
@@ -223,7 +252,10 @@
     <MESSAGE value="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages." />
     <MESSAGE value="feat: wip 2&#10;&#10;prompt:&#10;Implement BiomeDefinition as a ScriptableObject.&#10;&#10;It should contain:&#10;- biomeName&#10;- groundMaterial&#10;- terrainSize&#10;- treePrefabs list&#10;- rockPrefabs list&#10;- plantPrefabs list&#10;- animalDefinitions list&#10;- treeCount&#10;- rockCount&#10;- plantCount&#10;- animalGroupCount&#10;- skyColor&#10;- fogColor&#10;- fogDensity&#10;- directionalLightColor&#10;- directionalLightIntensity&#10;- ambientColor&#10;&#10;Also implement AnimalDefinition as a ScriptableObject containing:&#10;- animalName&#10;- animalPrefab&#10;- groupSizeMin&#10;- groupSizeMax&#10;- movementRadius&#10;- moveSpeed&#10;- factText&#10;- optional AudioClip animalSound&#10;&#10;Use attributes such as Header, Min, Range, Tooltip where useful." />
     <MESSAGE value="chore: ai repo setup" />
-    <option name="LAST_COMMIT_MESSAGE" value="chore: ai repo setup" />
+    <MESSAGE value="feat: wip 3&#10;&#10;prompt:&#10;Implement BiomeSceneGenerator as a Unity Editor tool.&#10;&#10;Requirements:&#10;- Add menu item Tools &gt; Biomes &gt; Generate Scene From Selected Biome&#10;- It should require that a BiomeDefinition asset is selected in the Project window&#10;- Create a new empty scene&#10;- Create a large ground plane scaled to biome.terrainSize&#10;- Assign biome.groundMaterial&#10;- Scatter trees, rocks, and plants randomly on the ground&#10;- Use deterministic random seed exposed in the generator code&#10;- Avoid placing objects too close to the center spawn point&#10;- Spawn animal groups from AnimalDefinition entries&#10;- Add a main camera&#10;- Add a directional light&#10;- Configure RenderSettings fog, ambient light, and sky color&#10;- Create an empty GameObject called World&#10;- Parent generated objects under World/Trees, World/Rocks, World/Plants, World/Animals&#10;- Save the scene to Assets/Game/Scenes/Generated_&lt;biomeName&gt;.unity&#10;&#10;The generated scene should look full and appealing, not empty.&#10;Use Undo.RegisterCreatedObjectUndo where appropriate.&#10;Add clear error messages." />
+    <MESSAGE value="feat: wip 3&#10;&#10;prompt:&#10;Implement BiomeSceneGenerator as a Unity Editor tool.&#10;&#10;Requirements:&#10;- Add menu item Tools &gt; Biomes &gt; Generate Scene From Selected Biome&#10;- It should require that a BiomeDefinition asset is selected in the Project window&#10;- Create a new empty scene&#10;- Create a large ground plane scaled to biome.terrainSize&#10;- Assign biome.groundMaterial&#10;- Scatter trees, rocks, and plants randomly on the ground&#10;- Use deterministic random seed exposed in the generator code&#10;- Avoid placing objects too close to the center spawn point&#10;- Spawn animal groups from AnimalDefinition entries&#10;- Add a main camera&#10;- Add a directional light&#10;- Configure RenderSettings fog, ambient light, and sky color&#10;- Create an empty GameObject called World&#10;- Parent generated objects under World/Trees, World/Rocks, World/Plants, World/Animals&#10;- Save the scene to Assets/Game/Scenes/Generated_&lt;biomeName&gt;.unity&#10;&#10;The generated scene should look full and appealing, not empty.&#10;Use Undo.RegisterCreatedObjectUndo where appropriate.&#10;Add clear error messages." />
+    <MESSAGE value="feat: wip 4&#10;&#10;prompt:&#10;Implement AnimalWander.&#10;&#10;Behavior:&#10;- Animal wanders inside a radius around its starting position&#10;- It picks a random destination&#10;- It smoothly rotates toward movement direction&#10;- It moves at configurable speed&#10;- It waits briefly after reaching a destination&#10;- It should work without NavMesh&#10;- It should keep y position stable&#10;- It should expose movementRadius, moveSpeed, idleTimeMin, idleTimeMax&#10;- Draw a gizmo circle showing movement radius when selected&#10;&#10;Keep it child-friendly and calm: no chasing, no fleeing, no combat." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 4&#10;&#10;prompt:&#10;Implement AnimalWander.&#10;&#10;Behavior:&#10;- Animal wanders inside a radius around its starting position&#10;- It picks a random destination&#10;- It smoothly rotates toward movement direction&#10;- It moves at configurable speed&#10;- It waits briefly after reaching a destination&#10;- It should work without NavMesh&#10;- It should keep y position stable&#10;- It should expose movementRadius, moveSpeed, idleTimeMin, idleTimeMax&#10;- Draw a gizmo circle showing movement radius when selected&#10;&#10;Keep it child-friendly and calm: no chasing, no fleeing, no combat." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
