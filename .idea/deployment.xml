@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="core-clang (1a0bd914-0c5e-4230-8454-2704c3540cfc)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../animal-fantasy-world-old" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="core-gcc (ca330261-50cd-4404-b13d-5acdd831119d)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$/../animal-fantasy-world-old" web="/" />
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
