@@ -282,6 +282,8 @@ public static class BiomeSceneGenerator
         orbit.distance = Mathf.Sqrt(camHeight * camHeight + camBack * camBack);
         orbit.minDistance = biome.terrainSize * 0.08f;
         orbit.maxDistance = biome.terrainSize * 0.5f;
+
+        camGO.AddComponent<AnimalClickRaycaster>();
         Undo.RegisterCreatedObjectUndo(camGO, "Create Main Camera");
     }
 

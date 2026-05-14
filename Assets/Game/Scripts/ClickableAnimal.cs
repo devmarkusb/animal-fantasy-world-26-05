@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
-/// Detects mouse/touch clicks on an animal, shows a <see cref="FactCardUI"/>
-/// with its name and fun fact, and plays its sound.
-/// A Collider on this root GameObject is required for OnMouseDown to fire.
+/// Shows a <see cref="FactCardUI"/> with the animal's name and fun fact,
+/// and plays its sound. Click detection is handled by
+/// <see cref="AnimalClickRaycaster"/> on the camera, which calls
+/// <see cref="HandleClick"/> when this animal is hit.
+/// A Collider on this root GameObject is required for raycasting.
 /// If missing, one is auto-added at runtime as a safety net.
 /// </summary>
 public class ClickableAnimal : MonoBehaviour
@@ -12,7 +13,6 @@ public class ClickableAnimal : MonoBehaviour
     [HideInInspector] public AnimalDefinition definition;
 
     AudioSource _audioSource;
-    bool _warned;
 
     void Awake()
     {
@@ -33,18 +33,15 @@ public class ClickableAnimal : MonoBehaviour
         }
     }
 
-    void OnMouseDown()
+    /// <summary>
+    /// Called by <see cref="AnimalClickRaycaster"/> when the player
+    /// clicks or taps this animal.
+    /// </summary>
+    public void HandleClick()
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
-
         if (definition == null)
         {
-            if (!_warned)
-            {
-                Debug.LogWarning($"[ClickableAnimal] '{gameObject.name}' has no AnimalDefinition — cannot show fact card.", this);
-                _warned = true;
-            }
+            Debug.LogWarning($"[ClickableAnimal] '{gameObject.name}' has no AnimalDefinition — cannot show fact card.", this);
             return;
         }
 

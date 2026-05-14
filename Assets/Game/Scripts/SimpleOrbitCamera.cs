@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using Touchscreen = UnityEngine.InputSystem.Touchscreen;
 
 /// <summary>
 /// Third-person orbit camera for children: right-click drag (desktop) or
@@ -53,6 +55,9 @@ public class SimpleOrbitCamera : MonoBehaviour
     [Tooltip("Camera will not descend below this world-space height.")]
     [Min(0f)]
     [SerializeField] float _minimumHeight = 0.5f;
+
+    const float MouseDeltaScale = 0.1f;
+    const float ScrollScale = 0.005f;
 
     float _yaw;
     float _pitch;
@@ -117,30 +122,51 @@ public class SimpleOrbitCamera : MonoBehaviour
 
     void HandleRotation()
     {
-        bool rotating = Input.GetMouseButton(1);
+        bool rotating = false;
+        float deltaX = 0f;
+        float deltaY = 0f;
 
-        if (!rotating && Input.touchCount == 1)
+        var mouse = Mouse.current;
+        if (mouse != null && mouse.rightButton.isPressed)
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Moved)
+            rotating = true;
+            deltaX = mouse.delta.x.ReadValue() * MouseDeltaScale;
+            deltaY = mouse.delta.y.ReadValue() * MouseDeltaScale;
+        }
+
+        if (!rotating)
+        {
+            var touch = Touchscreen.current;
+            if (touch != null && touch.primaryTouch.press.isPressed)
             {
-                bool overUI = EventSystem.current != null
-                    && EventSystem.current.IsPointerOverGameObject(touch.fingerId);
-                if (!overUI)
-                    rotating = true;
+                var delta = touch.primaryTouch.delta.ReadValue();
+                if (delta.sqrMagnitude > 0.01f)
+                {
+                    bool overUI = EventSystem.current != null
+                        && EventSystem.current.IsPointerOverGameObject();
+                    if (!overUI)
+                    {
+                        rotating = true;
+                        deltaX = delta.x * MouseDeltaScale;
+                        deltaY = delta.y * MouseDeltaScale;
+                    }
+                }
             }
         }
 
         if (!rotating) return;
 
-        _yaw += Input.GetAxis("Mouse X") * rotationSpeed;
-        _pitch -= Input.GetAxis("Mouse Y") * rotationSpeed;
+        _yaw += deltaX * rotationSpeed;
+        _pitch -= deltaY * rotationSpeed;
         _pitch = Mathf.Clamp(_pitch, minPitch, maxPitch);
     }
 
     void HandleZoom()
     {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        var mouse = Mouse.current;
+        if (mouse == null) return;
+
+        float scroll = mouse.scroll.y.ReadValue() * ScrollScale;
         if (Mathf.Abs(scroll) < 0.001f) return;
 
         _targetDistance -= scroll * zoomSpeed;

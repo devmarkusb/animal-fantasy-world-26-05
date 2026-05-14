@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Moves the camera pivot on the XZ plane using WASD / arrow keys,
@@ -20,8 +21,14 @@ public class CameraTargetMover : MonoBehaviour
 
     void Update()
     {
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        var kb = Keyboard.current;
+        if (kb == null) return;
+
+        float h = 0f, v = 0f;
+        if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) h += 1f;
+        if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) h -= 1f;
+        if (kb.wKey.isPressed || kb.upArrowKey.isPressed) v += 1f;
+        if (kb.sKey.isPressed || kb.downArrowKey.isPressed) v -= 1f;
 
         if (Mathf.Approximately(h, 0f) && Mathf.Approximately(v, 0f))
             return;

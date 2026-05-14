@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 /// <summary>
@@ -58,7 +59,7 @@ public class FactCardUI : MonoBehaviour
         {
             var esGO = new GameObject("EventSystem");
             esGO.AddComponent<EventSystem>();
-            esGO.AddComponent<StandaloneInputModule>();
+            esGO.AddComponent<InputSystemUIInputModule>();
         }
 
         var canvasGO = new GameObject("FactCardCanvas");
