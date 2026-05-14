@@ -32,6 +32,22 @@ public class AnimalWander : MonoBehaviour
     {
         _origin = transform.position;
         _originY = _origin.y;
+
+        if (idleTimeMax < idleTimeMin)
+        {
+            Debug.LogWarning($"[AnimalWander] '{gameObject.name}' has idleTimeMax ({idleTimeMax}) < idleTimeMin ({idleTimeMin}) — swapping.", this);
+            (idleTimeMin, idleTimeMax) = (idleTimeMax, idleTimeMin);
+        }
+
+        if (moveSpeed <= 0f)
+        {
+            Debug.LogWarning($"[AnimalWander] '{gameObject.name}' has moveSpeed <= 0 — defaulting to 1.", this);
+            moveSpeed = 1f;
+        }
+
+        if (movementRadius <= 0f)
+            Debug.LogWarning($"[AnimalWander] '{gameObject.name}' has movementRadius <= 0 — animal will not wander.", this);
+
         BeginIdle();
     }
 
@@ -53,6 +69,9 @@ public class AnimalWander : MonoBehaviour
             BeginIdle();
             return;
         }
+
+        if (toTarget == Vector3.zero)
+            return;
 
         Quaternion desired = Quaternion.LookRotation(toTarget);
         transform.rotation = Quaternion.RotateTowards(

@@ -63,9 +63,22 @@ public class SimpleOrbitCamera : MonoBehaviour
     {
         if (target == null)
         {
+            Debug.LogWarning("[SimpleOrbitCamera] No target assigned — creating a default pivot at the origin.", this);
             var go = new GameObject("CameraPivot");
             go.transform.position = Vector3.zero;
             target = go.transform;
+        }
+
+        if (minDistance > maxDistance)
+        {
+            Debug.LogWarning($"[SimpleOrbitCamera] minDistance ({minDistance}) > maxDistance ({maxDistance}) — swapping.", this);
+            (minDistance, maxDistance) = (maxDistance, minDistance);
+        }
+
+        if (minPitch > maxPitch)
+        {
+            Debug.LogWarning($"[SimpleOrbitCamera] minPitch ({minPitch}) > maxPitch ({maxPitch}) — swapping.", this);
+            (minPitch, maxPitch) = (maxPitch, minPitch);
         }
 
         InitOrbitFromPosition();

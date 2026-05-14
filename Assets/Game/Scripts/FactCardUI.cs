@@ -29,8 +29,14 @@ public class FactCardUI : MonoBehaviour
 
     public void Show(string animalName, string factText)
     {
-        _nameLabel.text = animalName;
-        _factLabel.text = factText;
+        if (_card == null || _nameLabel == null || _factLabel == null)
+        {
+            Debug.LogWarning("[FactCardUI] Card UI was not built correctly — cannot show fact card.");
+            return;
+        }
+
+        _nameLabel.text = animalName ?? "Unknown Animal";
+        _factLabel.text = factText ?? "No fact available.";
         _card.SetActive(true);
     }
 
@@ -38,6 +44,12 @@ public class FactCardUI : MonoBehaviour
     {
         if (_card != null)
             _card.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 
     static void CreateInstance()
@@ -69,6 +81,8 @@ public class FactCardUI : MonoBehaviour
     void BuildCard()
     {
         Font font = LoadFont();
+        if (font == null)
+            Debug.LogWarning("[FactCardUI] No built-in font found — fact card text will not render.");
 
         _card = CreateRect("FactCard", transform);
         var cardRect = Rect(_card);
@@ -167,8 +181,12 @@ public class FactCardUI : MonoBehaviour
     static Font LoadFont()
     {
         var font = Resources.GetBuiltinResource<Font>("LegacySRuntime.ttf");
-        if (font == null)
-            font = Resources.GetBuiltinResource<Font>("Arial.ttf");
-        return font;
+        if (font != null) return font;
+
+        font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+        if (font != null) return font;
+
+        Debug.LogWarning("[FactCardUI] Neither LegacySRuntime.ttf nor Arial.ttf found as built-in resources.");
+        return null;
     }
 }

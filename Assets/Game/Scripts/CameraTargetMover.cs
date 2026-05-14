@@ -16,6 +16,8 @@ public class CameraTargetMover : MonoBehaviour
     [Min(0f)]
     public float boundaryRadius;
 
+    bool _warnedNoCamera;
+
     void Update()
     {
         float h = Input.GetAxis("Horizontal");
@@ -25,7 +27,15 @@ public class CameraTargetMover : MonoBehaviour
             return;
 
         Camera cam = Camera.main;
-        if (cam == null) return;
+        if (cam == null)
+        {
+            if (!_warnedNoCamera)
+            {
+                Debug.LogWarning("[CameraTargetMover] No camera tagged 'MainCamera' found — WASD movement disabled.", this);
+                _warnedNoCamera = true;
+            }
+            return;
+        }
 
         Vector3 forward = cam.transform.forward;
         Vector3 right = cam.transform.right;

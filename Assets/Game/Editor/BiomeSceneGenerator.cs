@@ -739,7 +739,9 @@ public static class BiomeSceneGenerator
 
     static void EnsureCollider(GameObject go)
     {
-        if (go.GetComponentInChildren<Collider>() != null)
+        // OnMouseDown only fires on the GameObject that owns the Collider.
+        // ClickableAnimal lives on the root, so the root must have a Collider.
+        if (go.GetComponent<Collider>() != null)
             return;
 
         var col = go.AddComponent<BoxCollider>();
@@ -747,6 +749,7 @@ public static class BiomeSceneGenerator
         if (renderers.Length == 0)
         {
             col.size = Vector3.one;
+            Debug.LogWarning($"[BiomeSceneGenerator] '{go.name}' has no Renderers — added a default 1x1x1 BoxCollider.");
             return;
         }
 
