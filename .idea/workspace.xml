@@ -23,12 +23,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages.">
+    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="chore: ai repo setup">
       <change beforePath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalDefinition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalWander.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/AnimalWander.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/ClickableAnimal.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +106,7 @@
       <workItem from="1778704643950" duration="5106000" />
       <workItem from="1778739991065" duration="1719000" />
       <workItem from="1778741988172" duration="283000" />
-      <workItem from="1778742298800" duration="2169000" />
+      <workItem from="1778742298800" duration="2523000" />
     </task>
     <task id="LOCAL-00001" summary="Update default Android package name in Fastlane Appfile">
       <option name="closed" value="true" />
@@ -168,7 +164,23 @@
       <option name="project" value="LOCAL" />
       <updated>1778748791135</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: wip 2&#10;&#10;prompt:&#10;Implement BiomeDefinition as a ScriptableObject.&#10;&#10;It should contain:&#10;- biomeName&#10;- groundMaterial&#10;- terrainSize&#10;- treePrefabs list&#10;- rockPrefabs list&#10;- plantPrefabs list&#10;- animalDefinitions list&#10;- treeCount&#10;- rockCount&#10;- plantCount&#10;- animalGroupCount&#10;- skyColor&#10;- fogColor&#10;- fogDensity&#10;- directionalLightColor&#10;- directionalLightIntensity&#10;- ambientColor&#10;&#10;Also implement AnimalDefinition as a ScriptableObject containing:&#10;- animalName&#10;- animalPrefab&#10;- groupSizeMin&#10;- groupSizeMax&#10;- movementRadius&#10;- moveSpeed&#10;- factText&#10;- optional AudioClip animalSound&#10;&#10;Use attributes such as Header, Min, Range, Tooltip where useful.">
+      <option name="closed" value="true" />
+      <created>1778748903219</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1778748903219</updated>
+    </task>
+    <task id="LOCAL-00009" summary="chore: ai repo setup">
+      <option name="closed" value="true" />
+      <created>1778749108905</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1778749108905</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,8 +198,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Set NPCSpawner ground mask to Default layer&#10;&#10;Allows NPCSpawner to raycast against terrain when finding NPC spawn&#10;positions. Also tracks the Biomes resource folder meta file." />
-    <MESSAGE value="Set NPCSpawner ground mask to Default layer&#10;&#10;Allows NPCSpawner to raycast against terrain when finding NPC spawn&#10;positions. Also tracks the Biomes resource folder meta file." />
     <MESSAGE value="Fix NPC spawning and biome transition detection&#10;&#10;NPCSpawner.SpawnForBiome was never called — now triggered on initial&#10;scene load and wired to WorldManager.OnBiomeChanged so NPCs re-spawn&#10;when the player enters a new biome. WorldManager now tracks the player&#10;transform and detects biome transitions in Update() via biomeBounds,&#10;replacing the single one-shot EnterBiome call on load." />
     <MESSAGE value="Fix NPC spawning and biome transition detection&#10;&#10;NPCSpawner.SpawnForBiome was never called — now triggered on initial&#10;scene load and wired to WorldManager.OnBiomeChanged so NPCs re-spawn&#10;when the player enters a new biome. WorldManager now tracks the player&#10;transform and detects biome transitions in Update() via biomeBounds,&#10;replacing the single one-shot EnterBiome call on load." />
     <MESSAGE value="Remove duplicate Main Camera and add AudioListener in GameWorld&#10;&#10;SceneSetupWizard had generated two Main Camera GameObjects. Removed&#10;the one without CameraController and added AudioListener to the&#10;remaining camera to fix the missing audio listener warning." />
@@ -211,7 +221,9 @@
     <MESSAGE value="Fix UI layout: fill parent RectTransform and add gradient background for URP&#10;&#10;- MainMenuUI: force RectTransform to stretch-fill Canvas so button anchor&#10;  positions calculate against the full screen; move buttons to y=-160/-300&#10;  (center-relative) and subtext to match&#10;- AnimalSelectionUI: same stretch-fill fix; replace Camera.backgroundColor&#10;  (ignored by URP) with a programmatic gradient Image panel injected as&#10;  first sibling so the background is always visible" />
     <MESSAGE value="chore: add nature and animal presets, first 3 example prefabs" />
     <MESSAGE value="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 1&#10;&#10;prompt:&#10;You are working in a fresh Unity URP project.&#10;&#10;Set up a clean folder architecture for a small children’s 3D biome exploration game.&#10;&#10;Create only scripts and ScriptableObject definitions. Do not assume specific third-party asset names yet.&#10;&#10;Create:&#10;- Assets/Game/Scripts/BiomeDefinition.cs&#10;- Assets/Game/Scripts/AnimalDefinition.cs&#10;- Assets/Game/Scripts/AnimalWander.cs&#10;- Assets/Game/Scripts/ClickableAnimal.cs&#10;- Assets/Game/Scripts/SimpleOrbitCamera.cs&#10;- Assets/Game/Editor/BiomeSceneGenerator.cs&#10;&#10;The goal is a data-driven workflow where a designer assigns prefabs/materials in ScriptableObjects, then uses Tools &gt; Generate Biome Scene to create a pleasant test scene.&#10;&#10;Use Unity 6 / URP-compatible APIs where possible.&#10;Keep scripts simple, robust, and readable.&#10;Add null checks and helpful Debug.LogWarning messages." />
+    <MESSAGE value="feat: wip 2&#10;&#10;prompt:&#10;Implement BiomeDefinition as a ScriptableObject.&#10;&#10;It should contain:&#10;- biomeName&#10;- groundMaterial&#10;- terrainSize&#10;- treePrefabs list&#10;- rockPrefabs list&#10;- plantPrefabs list&#10;- animalDefinitions list&#10;- treeCount&#10;- rockCount&#10;- plantCount&#10;- animalGroupCount&#10;- skyColor&#10;- fogColor&#10;- fogDensity&#10;- directionalLightColor&#10;- directionalLightIntensity&#10;- ambientColor&#10;&#10;Also implement AnimalDefinition as a ScriptableObject containing:&#10;- animalName&#10;- animalPrefab&#10;- groupSizeMin&#10;- groupSizeMax&#10;- movementRadius&#10;- moveSpeed&#10;- factText&#10;- optional AudioClip animalSound&#10;&#10;Use attributes such as Header, Min, Range, Tooltip where useful." />
+    <MESSAGE value="chore: ai repo setup" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: ai repo setup" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
