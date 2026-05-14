@@ -28,6 +28,14 @@ public class AnimalDefinition : ScriptableObject
     [Min(0.1f)]
     public float moveSpeed = 2f;
 
+    [Tooltip("Minimum seconds the animal pauses after reaching a destination.")]
+    [Min(0f)]
+    public float idleTimeMin = 2f;
+
+    [Tooltip("Maximum seconds the animal pauses after reaching a destination.")]
+    [Min(0f)]
+    public float idleTimeMax = 5f;
+
     [Header("Fun Fact")]
     [TextArea(2, 5)]
     [Tooltip("Educational text shown when a child taps the animal.")]
@@ -47,5 +55,8 @@ public class AnimalDefinition : ScriptableObject
 
         if (groupSizeMax < groupSizeMin)
             Debug.LogWarning($"[AnimalDefinition] '{name}' has groupSizeMax ({groupSizeMax}) < groupSizeMin ({groupSizeMin}). Will clamp.", this);
+
+        if (idleTimeMax < idleTimeMin)
+            Debug.LogWarning($"[AnimalDefinition] '{name}' has idleTimeMax ({idleTimeMax}) < idleTimeMin ({idleTimeMin}). Will clamp.", this);
     }
 }

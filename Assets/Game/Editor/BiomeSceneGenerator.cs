@@ -296,6 +296,8 @@ public static class BiomeSceneGenerator
                     wander = instance.AddComponent<AnimalWander>();
                 wander.moveSpeed = animal.moveSpeed;
                 wander.movementRadius = animal.movementRadius;
+                wander.idleTimeMin = animal.idleTimeMin;
+                wander.idleTimeMax = animal.idleTimeMax;
 
                 EnsureCollider(instance);
 
