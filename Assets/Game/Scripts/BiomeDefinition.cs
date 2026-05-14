@@ -33,6 +33,23 @@ public class BiomeDefinition : ScriptableObject
     [Min(0)]
     public int plantCount = 25;
 
+    [Header("Hero Objects")]
+    [Tooltip("Number of larger feature trees placed at middle distance as visual landmarks.")]
+    [Min(0)]
+    public int heroTreeCount = 3;
+
+    [Tooltip("Scale multiplier applied to hero trees relative to normal trees.")]
+    [Range(1.5f, 4f)]
+    public float heroTreeScale = 2f;
+
+    [Tooltip("Number of larger feature rocks placed at middle distance.")]
+    [Min(0)]
+    public int heroRockCount = 2;
+
+    [Tooltip("Scale multiplier applied to hero rocks relative to normal rocks.")]
+    [Range(1.5f, 4f)]
+    public float heroRockScale = 2.5f;
+
     [Header("Animals")]
     [Tooltip("Animal species that can appear in this biome.")]
     public AnimalDefinition[] animalDefinitions;
@@ -50,6 +67,9 @@ public class BiomeDefinition : ScriptableObject
     [Tooltip("Exponential fog density. 0 = no fog.")]
     public float fogDensity = 0.005f;
 
+    [Tooltip("Optional skybox material. A simple procedural sky is generated when unassigned.")]
+    public Material skyboxMaterial;
+
     [Header("Lighting")]
     public Color directionalLightColor = Color.white;
 
@@ -57,6 +77,30 @@ public class BiomeDefinition : ScriptableObject
     public float directionalLightIntensity = 1.2f;
 
     public Color ambientColor = new Color(0.7f, 0.85f, 1f);
+
+    [Header("Paths & Clearings")]
+    [Tooltip("Color tint for simple ground paths through the biome.")]
+    public Color pathColor = new Color(0.76f, 0.70f, 0.50f);
+
+    [Tooltip("Number of gently curved paths generated across the biome.")]
+    [Min(0)]
+    public int pathCount = 2;
+
+    [Tooltip("Color tint for circular landmark clearings.")]
+    public Color clearingColor = new Color(0.65f, 0.78f, 0.42f);
+
+    [Tooltip("Number of open clearings placed in the biome.")]
+    [Min(0)]
+    public int clearingCount = 2;
+
+    [Header("Scatter Style")]
+    [Tooltip("Number of organic vegetation clusters. Objects group around these centres.")]
+    [Range(3, 15)]
+    public int clusterCount = 5;
+
+    [Tooltip("Blend between fully clustered (0) and fully random (1) object placement.")]
+    [Range(0f, 1f)]
+    public float scatterRandomness = 0.3f;
 
     public void Validate()
     {
@@ -77,5 +121,11 @@ public class BiomeDefinition : ScriptableObject
 
         if (plantPrefabs != null && plantPrefabs.Length > 0 && plantCount == 0)
             Debug.LogWarning($"[BiomeDefinition] '{name}' has plant prefabs but plantCount is 0.", this);
+
+        if (heroTreeCount > 0 && (treePrefabs == null || treePrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeDefinition] '{name}' requests hero trees but has no tree prefabs.", this);
+
+        if (heroRockCount > 0 && (rockPrefabs == null || rockPrefabs.Length == 0))
+            Debug.LogWarning($"[BiomeDefinition] '{name}' requests hero rocks but has no rock prefabs.", this);
     }
 }

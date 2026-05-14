@@ -23,10 +23,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="chor: add license">
-      <change afterPath="$PROJECT_DIR$/Assets/Game/Scripts/CameraTargetMover.cs" afterDir="false" />
+    <list default="true" id="f8075c5d-75f4-4281-8a79-4ee4bed39f88" name="Changes" comment="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Editor/BiomeSceneGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/SimpleOrbitCamera.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/SimpleOrbitCamera.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Game/Scripts/BiomeDefinition.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,7 +223,31 @@
       <option name="project" value="LOCAL" />
       <updated>1778750041149</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="feat: feat: wip 6&#10;&#10;prompt:&#10;Implement SimpleOrbitCamera.&#10;&#10;Behavior:&#10;- Third-person orbit camera around a target&#10;- If no target is assigned, create a simple invisible target at scene center&#10;- Right mouse drag or one-finger drag rotates camera&#10;- Mouse wheel zooms&#10;- Clamp pitch and zoom&#10;- Smooth follow&#10;- Avoid going below ground&#10;- Expose distance, minDistance, maxDistance, rotationSpeed, zoomSpeed, smoothing&#10;&#10;Also create an optional simple keyboard controller for the camera target:&#10;- WASD / arrow keys move target on XZ plane&#10;- movement speed configurable&#10;This lets a child explore the biome without a character controller.">
+      <option name="closed" value="true" />
+      <created>1778750234265</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1778750234265</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: feat: wip 6&#10;&#10;prompt:&#10;Implement SimpleOrbitCamera.&#10;&#10;Behavior:&#10;- Third-person orbit camera around a target&#10;- If no target is assigned, create a simple invisible target at scene center&#10;- Right mouse drag or one-finger drag rotates camera&#10;- Mouse wheel zooms&#10;- Clamp pitch and zoom&#10;- Smooth follow&#10;- Avoid going below ground&#10;- Expose distance, minDistance, maxDistance, rotationSpeed, zoomSpeed, smoothing&#10;&#10;Also create an optional simple keyboard controller for the camera target:&#10;- WASD / arrow keys move target on XZ plane&#10;- movement speed configurable&#10;This lets a child explore the biome without a character controller.">
+      <option name="closed" value="true" />
+      <created>1778750238621</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1778750238621</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target.">
+      <option name="closed" value="true" />
+      <created>1778750316454</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1778750316454</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -248,9 +272,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Replace StandaloneInputModule with InputSystemUIInputModule in all scenes&#10;&#10;The project uses Unity's new Input System package but EventSystems were&#10;using the old StandaloneInputModule, causing all UI buttons to be&#10;unresponsive. Replaced in MainMenu, AnimalSelection, and GameWorld." />
-    <MESSAGE value="Add AI agent configuration (AGENTS.md, CLAUDE.md, .claude/settings.json)" />
-    <MESSAGE value="Add AI agent configuration (AGENTS.md, CLAUDE.md, .claude/settings.json)" />
     <MESSAGE value="chore: ai infra up" />
     <MESSAGE value="Redesign MainMenu layout and add procedural gradient background&#10;&#10;Rewrites MainMenuUI layout entirely in code: title anchored top with&#10;large gold text, full-width touch-friendly buttons (560x100) centred&#10;on screen, proper version label bottom-right. Adds MenuBackground&#10;which generates a midnight-blue → forest-green → dark-earth gradient&#10;texture at runtime with no external art assets." />
     <MESSAGE value="Redesign MainMenu layout and add procedural gradient background&#10;&#10;Rewrites MainMenuUI layout entirely in code: title anchored top with&#10;large gold text, full-width touch-friendly buttons (560x100) centred&#10;on screen, proper version label bottom-right. Adds MenuBackground&#10;which generates a midnight-blue → forest-green → dark-earth gradient&#10;texture at runtime with no external art assets." />
@@ -273,7 +294,10 @@
     <MESSAGE value="feat: wip 4&#10;&#10;prompt:&#10;Implement AnimalWander.&#10;&#10;Behavior:&#10;- Animal wanders inside a radius around its starting position&#10;- It picks a random destination&#10;- It smoothly rotates toward movement direction&#10;- It moves at configurable speed&#10;- It waits briefly after reaching a destination&#10;- It should work without NavMesh&#10;- It should keep y position stable&#10;- It should expose movementRadius, moveSpeed, idleTimeMin, idleTimeMax&#10;- Draw a gizmo circle showing movement radius when selected&#10;&#10;Keep it child-friendly and calm: no chasing, no fleeing, no combat." />
     <MESSAGE value="feat: wip 5&#10;&#10;prompt:&#10;Implement ClickableAnimal.&#10;&#10;Behavior:&#10;- When clicked/tapped, show a simple UI fact card&#10;- Fact card displays animalName and factText&#10;- If animalSound exists, play it&#10;- Create the UI automatically at runtime if it does not already exist&#10;- UI should be readable and child-friendly&#10;- Add a close button&#10;- Make the card appear near bottom center of the screen&#10;- Support mouse click for desktop&#10;- Support touch tap for mobile&#10;- Use Unity UI, not UI Toolkit&#10;- Keep styling simple but pleasant" />
     <MESSAGE value="chor: add license" />
-    <option name="LAST_COMMIT_MESSAGE" value="chor: add license" />
+    <MESSAGE value="feat: feat: wip 6&#10;&#10;prompt:&#10;Implement SimpleOrbitCamera.&#10;&#10;Behavior:&#10;- Third-person orbit camera around a target&#10;- If no target is assigned, create a simple invisible target at scene center&#10;- Right mouse drag or one-finger drag rotates camera&#10;- Mouse wheel zooms&#10;- Clamp pitch and zoom&#10;- Smooth follow&#10;- Avoid going below ground&#10;- Expose distance, minDistance, maxDistance, rotationSpeed, zoomSpeed, smoothing&#10;&#10;Also create an optional simple keyboard controller for the camera target:&#10;- WASD / arrow keys move target on XZ plane&#10;- movement speed configurable&#10;This lets a child explore the biome without a character controller." />
+    <MESSAGE value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
+    <MESSAGE value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: wip 7&#10;&#10;prompt:&#10;Update BiomeSceneGenerator so generated animal prefabs are automatically configured.&#10;&#10;For every spawned animal:&#10;- Add AnimalWander if missing&#10;- Configure movementRadius and moveSpeed from AnimalDefinition&#10;- Add ClickableAnimal if missing&#10;- Configure animalName, factText, and animalSound from AnimalDefinition&#10;- Randomize group positions slightly&#10;- Randomize rotation&#10;- Add colliders if no collider exists, using a BoxCollider fallback&#10;&#10;Also create a camera target object at the center of the scene.&#10;Attach the camera controller to the main camera and assign the target.&#10;Add the keyboard movement component to the target." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
