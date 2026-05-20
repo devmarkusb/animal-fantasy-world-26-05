@@ -51,11 +51,16 @@ public static class BiomeSceneGenerator
             return;
         }
 
-        biome.Validate();
-        WarnEmptyPrefabLists(biome);
-
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             return;
+
+        GenerateFromBiome(biome);
+    }
+
+    static void GenerateFromBiome(BiomeDefinition biome)
+    {
+        biome.Validate();
+        WarnEmptyPrefabLists(biome);
 
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         int undoGroup = Undo.GetCurrentGroup();
@@ -111,6 +116,33 @@ public static class BiomeSceneGenerator
 
     [MenuItem("Tools/Biomes/Generate Scene From Selected Biome", true)]
     static bool GenerateValidate() => Selection.activeObject is BiomeDefinition;
+
+    // Called via Unity -batchmode -executeMethod BiomeSceneGenerator.GenerateBatch
+    // Optional arg: -biomeAssetPath Assets/Game/Definitions/Forrest.asset
+    public static void GenerateBatch()
+    {
+        string assetPath = "Assets/Game/Definitions/Forrest.asset";
+        string[] args = System.Environment.GetCommandLineArgs();
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (args[i] == "-biomeAssetPath")
+            {
+                assetPath = args[i + 1];
+                break;
+            }
+        }
+
+        var biome = AssetDatabase.LoadAssetAtPath<BiomeDefinition>(assetPath);
+        if (biome == null)
+        {
+            Debug.LogError($"[BiomeSceneGenerator] Batch: could not load BiomeDefinition at '{assetPath}'.");
+            EditorApplication.Exit(1);
+            return;
+        }
+
+        GenerateFromBiome(biome);
+        EditorApplication.Exit(0);
+    }
 
     // ==================================================================
     // Validation helpers
@@ -458,7 +490,7 @@ public static class BiomeSceneGenerator
             var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             instance.transform.SetParent(parent);
             instance.transform.position = pos;
-            instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f);
+            instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f) * prefab.transform.rotation;
 
             float baseScale = scaleMin + (float)rng.NextDouble() * (scaleMax - scaleMin);
             float yStretch = 1f + (float)(rng.NextDouble() - 0.5) * 0.2f;
@@ -561,7 +593,7 @@ public static class BiomeSceneGenerator
             instance.name = $"Hero {prefab.name}";
             instance.transform.SetParent(parent);
             instance.transform.position = candidate;
-            instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f);
+            instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f) * prefab.transform.rotation;
 
             float baseScale = 0.85f + (float)rng.NextDouble() * 0.3f;
             instance.transform.localScale = Vector3.one * (baseScale * scaleMul);
@@ -630,7 +662,7 @@ public static class BiomeSceneGenerator
                 instance.name = $"{animal.animalName} ({g + 1}-{i + 1})";
                 instance.transform.SetParent(parent);
                 instance.transform.position = pos;
-                instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f);
+                instance.transform.rotation = Quaternion.Euler(0f, (float)(rng.NextDouble() * 360.0), 0f) * animal.animalPrefab.transform.rotation;
 
                 var wander = instance.GetComponent<AnimalWander>();
                 if (wander == null)
