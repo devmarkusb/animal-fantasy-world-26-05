@@ -59,6 +59,8 @@ public static class BiomeSceneGenerator
 
     static void GenerateFromBiome(BiomeDefinition biome)
     {
+        EnsureNatureMaterialsRemapped();
+
         biome.Validate();
         WarnEmptyPrefabLists(biome);
 
@@ -142,6 +144,24 @@ public static class BiomeSceneGenerator
 
         GenerateFromBiome(biome);
         EditorApplication.Exit(0);
+    }
+
+    // ==================================================================
+    // Nature material bootstrap
+    // ==================================================================
+
+    static void EnsureNatureMaterialsRemapped()
+    {
+        const string fbxPath = "Assets/Art/Nature/Ultimate Stylized Nature - May 2022/FBX/BirchTree_1.fbx";
+        var importer = AssetImporter.GetAtPath(fbxPath) as ModelImporter;
+        if (importer == null) return;
+
+        // Only reimport if still in legacy External mode (first run or stale state).
+        if (importer.materialLocation != ModelImporterMaterialLocation.InPrefab)
+        {
+            Debug.Log("[BiomeSceneGenerator] Nature FBX materials not yet remapped — running NatureMaterialRemapper now.");
+            NatureMaterialRemapper.Remap();
+        }
     }
 
     // ==================================================================

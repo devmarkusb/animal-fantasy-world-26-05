@@ -5,12 +5,12 @@ using UnityEditor;
 /// One-shot tool: Tools > Biomes > Remap Nature Materials.
 /// Connects BirchTree_1, Rock_1, and Plant_1 FBX importers to the
 /// hand-authored URP materials in Assets/Art/Nature/.../Materials/.
-/// Run once — afterwards the menu item can be ignored.
+/// Run once after project setup, then regenerate the scene.
 /// </summary>
 public static class NatureMaterialRemapper
 {
     [MenuItem("Tools/Biomes/Remap Nature Materials")]
-    static void Remap()
+    public static void Remap()
     {
         const string matBase = "Assets/Art/Nature/Ultimate Stylized Nature - May 2022/Materials";
 
@@ -35,6 +35,10 @@ public static class NatureMaterialRemapper
                 Debug.LogError($"[NatureMaterialRemapper] Could not find ModelImporter at '{fbxPath}'.");
                 continue;
             }
+
+            // InPrefab mode embeds materials as sub-assets; externalObjects remapping
+            // is only honoured in this mode (not in External/Legacy mode).
+            importer.materialLocation = ModelImporterMaterialLocation.InPrefab;
 
             foreach (var (matName, matPath) in mats)
             {
